@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{% static '/css/detail.css' %}">
+   <link rel="stylesheet" href="{% static '/css/style.css' %}">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+   <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+   
+   <title>Details</title>
+</head>
+<body>
+   <style>
+      .active{
+         background: gainsboro;
+      }
+   </style>
+    <section class="main-nav" style="position: fixed; top: 0; width: 100%;">
+      <ul class="nav_link">
+         <li><a href="#" style="color:rgb(255,255,255); font-weight: 600;"> VR FASHION</a></li>
+         <li>
+            <form method="GET" class="search" action="{% url 'home' %}">
+            <input type="text"  class="search" name="q" placeholder="What are you looking for?">
+            <div class="search-logo"><button><i class="fas fa-search"></i></button></div>
+            </form>
+         </li>
+         
+         <div class="log-div">
+            <div class="ccount">{{cart_count}}</div>
+            <div class="div1">
+               <div class="cart">
+               <a href="{% url 'ordered'%}"><i class="fas fa-shopping-cart"></i></a>
+               </div>
+               <div class="profile">
+                  <a href="#"><i class="fa fa-user"></i></a>
+               </div>     
+            </div>
+            <div class="div2">
+               <h4 style="color:rgb(255,255,255);">Welcome</h4>
+               <div class="info">
+                  <a href="" style="color:rgb(255,255,255);">Sign in &nbsp;|</a>
+                  <a href="" style="color:rgb(255,255,255);">&nbsp; Register</a>
+               </div>
+            </div>
+           
+         </div>
+      </ul>
+</section>
+   <section class="detail_main">
+      <div class="detail_container">
+         <div class="dimg">
+            <img src="{{ curr_item.image.url }}" alt="image">
+         </div>
+         <div class="product_details">
+            <div class="title_des">
+               <h2>{{curr_item.product_name}}</h2>
+               <h4>Men Cotton Sustainble casual cloth</h4>
+               <div class="rating"><p><i class="fas fa-star" id="star"></i> 4.1 | 2.5k rating</p></div>
+            </div>
+            <div class="line"></div>
+            <div class="dprice" >
+                <h3 id="p_price">&#8377 {{curr_item.price}}</h3>
+                <p class="sucess">inclusive all taxes</p>
+            </div>
+            <div class="size">
+               <h3>SELECT SIZE</h3>
+               <div class="box_container">
+               {% for size in all_size %}
+               <div class="box" id="box1" >
+                  <button onclick="updateSize('{{size.size}}','{{curr_item.id}}','{{curr_item.price}}','{{size.sprice}}')">{{size.size}}</button>
+               </div>
+               {% endfor %}
+               </div>
+               
+               
+            </div>
+           
+            <div class="details_btn">
+            <button class="add_to_bag"><i class="fa fa-shopping-bag"></i><a href="" onclick="finalSize('{{curr_item.id}}')">ADD TO BAG</a>
+            </button>
+            <button class="wishlist"><i class="fa-solid fa-heart"></i><a href="">WISHLIST</a>
+            </button>
+            </div>
+         </div>
+
+      </div>
+   </section>
+   
+   <div class="similar_product">
+      <p>SIMILAR PRODUCTS</p>
+   </div>
+
+   <section class="main-products">
+      <div class="card-div">
+         {% for i,j in sobject %}
+         <div class="cards">
+            <div class="product-img">
+               <img src="{% static '/image/'%}{{i}}" alt="{{i}}">
+            </div>
+            <div class="product-title">
+               <a href="">{{j.product_name}}</a>
+            </div>
+            <div class="price">
+               <h4>&#8377 {{j.price}}</h4>
+            </div>
+            
+         </div>
+         {% endfor %}
+      </div> 
+   </section>
+
+   <script>
+
+   $('.box').click(function(){
+   $('.box').removeClass('active');
+   $(this).addClass('active');
+   });
+       
+       final_price=0
+       function updateSize(size,id,curr_price,size_price){
+           var updateprice=0;
+         //   console.log(id);
+           if(curr_price==size_price){}
+           else{
+             updateprice=Number(curr_price) + Number(size_price);
+             document.getElementById('p_price').innerText="\u20B9"+updateprice
+           }
+           final_price=updateprice;
+       }
+
+      function finalSize(id){ 
+      console.log("Coming")
+       $.ajax({
+         type:"GET",
+         url:'/ordered/',
+         data:{
+            'final_price':final_price,
+            'id':id,
+         },
+         dataType:'json',
+         success: function(data){
+            console.log("succesful");
+         },
+         failure:function(){
+            console.log("Failed");
+         }
+       });
+      }
+      
+   </script>
+</body>
+</html>

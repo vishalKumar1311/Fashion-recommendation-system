@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   {% load bootstrap5 %}
+   {% bootstrap_css %}
+   {% bootstrap_javascript %}
+   <title>Document</title>
+</head>
+<body>
+   
+
+   <style>
+      body{
+         width: 100%;
+         height: 100vh;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+      }
+      .form_container{
+         border: 1px #ddd solid;
+          width: 30%;
+          flex-direction: column;
+          display: flex;
+          align-items: center;
+          justify-content: center; 
+          padding-top: 1.8rem;
+          padding-bottom:1.8rem ;
+      }
+      .pcircle{
+         overflow: hidden;
+         align-self:center;
+         width: 150px;
+         height:150px;
+         border-radius: 100%;
+         background-color: black;
+         margin-bottom: 2rem;
+      }
+      .pcircle img{
+         width: 100%;
+      }
+      form{
+         width: 80%;
+         gap: 15px;
+         display: flex;
+         flex-direction: column;
+         justify-content: center;
+       
+      }
+   </style>
+
+   <section class="form_container">
+   <form method="POST">
+      {%csrf_token%}
+      <div class="form-group">
+        <label for="exampleInputEmail1">Username</label>
+        <input type="text" class="form-control" placeholder="Enter Username" name="username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" placeholder="Password" name="pass1">
+      </div> 
+      <button type="submit" class="btn btn-primary" style="background-color: #ff3f6c; border: none; font-size: 0.9rem; font-weight: 600; padding:0.5rem 0.5rem  ;">CONTINUE</button>
+    </form>
+    <small style="margin-top: 1rem;">Already Have account? <a href="Login">Login</a></small>
+   </section>
+</body>
+</html>

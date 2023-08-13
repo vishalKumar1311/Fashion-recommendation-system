@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{% static '/css/cart.css' %}">
+   <title>Cart</title>
+</head>
+<body>
+   <section class="cart-section">
+      <div class="cart_main_div">
+      <div class="list-product" >
+         <div class="headings">
+            <div class="div_product"><h2>Product</h2></div>
+            <div class="div_quantity"><h2>Quantity</h2></div>
+            <div class="div_price"><h2>Price</h2></div>
+         </div>
+         <div style="overflow-y:scroll; height:450px;">
+         {% for product in show_order %}
+         <div class="cproducts" >
+            <div class="cproduct-details">
+               <img src="{{product.product.image.url}}" alt="prod">
+               <div class="detail">
+                  <a>{{product.product.product_name}}</a>
+                  <p>Others</p>
+               </div>
+            </div>
+            <div class="cquantity">
+            <div class="quantity">
+               <form action="" method="POST">
+                  {% csrf_token %}
+                  <input type="number" name='add' hidden value="{{product.id}}">
+                  <input type="text" hidden name='remove' value="True">
+                  <button type="submit">-</button>
+               </form>
+               <p id="qcount">{{product.quantity}}</p>
+               <form action="" method="POST">
+                  {% csrf_token %}
+                  <input type="number" name='add' hidden value="{{product.id}}">
+                  <button type="submit">+</button>
+               </form>
+               
+             </div>
+            </div>
+            <div class="price">
+               <h3 id="o_price">&#8377  {{product.order_price}}</h3>
+            </div>
+            <button class="remove" style="background-color: rgb(230, 53, 53); color: white; border: none;"><a style="text-decoration: none; color: white;" href="{% url 'remove' product.id %}">Remove</a></button>
+         </div>
+         {% endfor %}
+         </div>
+         <div class="navigation">
+            <button class="btn">Back</button>
+            <button class="btn">Continue</button>
+          </div>
+      </div>
+      <div class="pricing">
+         <div class="coupon">
+            <p>Have a Coupon?</p>
+            <div class="coupon_input">
+               <input type="text">
+               <button class="btn1">Apply</button>
+            </div>
+            
+         </div>
+         <div class="mpricing">
+            <div class="pricing-detail">
+               <p>Total Price:</p>
+               <p>&#8377 {{total}}</p>
+            </div>
+            <div class="pricing-detail">
+               <p>Discount</p>
+               <p>&#8377 0</p>
+            </div>
+            <div class="pricing-detail">
+               <p>Total</p>
+               <p>&#8377 {{total}}</p>
+            </div>
+         </div>
+      </div>
+   </div>
+   </section>
+   >
+ 
+</body>
+</html>

@@ -1,0 +1,131 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="{% static '/css/style.css' %}">
+   <link rel="stylesheet" href="{% static '/css/more.css' %}">
+   <link rel="stylesheet" href="{% static '/css/all.css' %}">
+   <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+   <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+   <title>Ecommerce Website</title>
+</head>
+<body>
+   <!-- NavBar Section -->
+   <section class="main-nav">
+            <ul class="nav_link">
+               <li><a href="#" style="color:rgb(255,255,255); font-weight: 600;">VR Fashion</a></li>
+               <li>
+                  <form method="GET" class="search" action="{% url 'home' %}">
+                  <input type="text"  class="search" name="q" placeholder="What are you looking for?">
+                  <div class="search-logo"><button><i class="fas fa-search"></i></button></div>
+                  </form>
+               </li>
+               
+               <div class="log-div">
+                  <div class="ccount">{{cart_count}}</div>
+                  <div class="div1">
+                     <div class="cart">
+                     <a href="{% url 'ordered'%}"><i class="fas fa-shopping-cart"></i></a>
+                     </div>
+                     <div class="profile">
+                        <a href="#"><i class="fa fa-user"></i></a>
+                     </div>     
+                  </div>
+                  <div class="div2">
+                     <h4 style="color:rgb(255,255,255);">Welcome</h4>
+                     <div class="info">
+                        <a href="{% url 'signup'%}" style="color:rgb(255,255,255);">Sign in &nbsp;|</a>
+                        <a href="{% url 'login'%}" style="color:rgb(255,255,255);">&nbsp; Register</a>
+                     </div>
+                  </div>
+                 
+               </div>
+            </ul>
+   </section>
+
+   
+   <div class="feature_div">
+      <div class="left">
+         <h2>Category</h2>
+         <div class="category_list">
+            <p><a href="{% url 'home' %}?q={{i.name.sendingnone}}">All</a></p>
+         </div>
+         {% for i,j in categories %}
+         <div class="category_list">
+            <p><a href="/{{i.name}}">{{i.name}}({{j}})</a></p>
+         </div>
+         {% endfor %}
+      </div>
+      <div class="right">
+         <h3 style="margin-left: 1.4rem;">Latest Products</h3>
+         <div class="fcard-div">
+            {% for product in page_obj %}
+            <div class="cards">
+               <div class="product-img">
+                  <img src="{{ product.image.url }}" alt="Product 1">
+               </div>
+               <div class="product-title">
+                  <a href=" {% url 'detail' product.id %}">{{product.product_name}}</a>
+               </div>
+               <div class="price">
+                  <h5>&#8377 {{product.price}} <del style="color: #666875; font-weight:100 ;">&#8377 999</del> <h5 style="color:#00B53A;">44% off</h5></h5>
+               </div>
+               <div class="wishlist_heart">
+                  <button><i class="fa-regular fa-heart"></i></button>
+               </div>
+            </div>
+            {% endfor %}
+         </div> 
+      </div>
+      </div>
+      <div class="pagination">
+         <span class="step-links">
+            {% if page_obj.has_previous %}
+                 <a href="?page={{ page_obj.previous_page_number }}" class="dir_box"><i class="fa-solid fa-angle-left"></i> Previous</a>
+             {% endif %}
+            <!-- <a href="?page=1" class="dir_box">1</a> -->
+          
+     
+             <!-- <span class="current">
+                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+             </span> -->
+     
+             {% if page_obj.has_next %}
+                 <a href="?page={{ page_obj.next_page_number }}" class="dir_box">Next <i class="fa-solid fa-angle-right"></i></a>
+                 <!-- <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a> -->
+             {% endif %}
+         </span>
+     </div>
+      <div style="display: flex;
+      align-items: center; justify-content: center;
+      width: 100%; margin-top: 4rem;">
+     <div class="right">
+      <h3 style="margin-left: 1.4rem;">Recommended Products for you</h3>
+      <div class="fcard-div">
+         {% for product in recommend_img %}
+         <div class="cards">
+            <div class="product-img">
+               <img src="{{ product.image.url }}" alt="Product 1">
+            </div>
+            <div class="product-title">
+               <a href=" {% url 'detail' product.id %}">{{product.product_name}}</a>
+            </div>
+            <div class="price">
+               <h5>&#8377 {{product.price}} <del style="color: #666875; font-weight:100 ;">&#8377 999</del> <h5 style="color:#00B53A;">44% off</h5></h5>
+            </div>
+            <div class="wishlist_heart">
+               <button><i class="fa-regular fa-heart"></i></button>
+            </div>
+         </div>
+         {% endfor %}
+      </div> 
+   </div>
+</div>
+    
+     <section class="footer"></section>
+</body>
+</html>
